@@ -2,7 +2,7 @@ library(readr)
 library(dplyr)
 
 # CUSTOMISE: import the data
-data = read_csv("Quarter Finals Video Submission Evaluation (Responses) - Form Responses 1.csv")
+data = read_csv("PATH/Example Reviewer Form.csv")
 
 # Change the column names
 colnames(data) <- c('Timestamp', 'Team Name', 'Reviewer Name', 'Impact', 'Feasibility', 'Innovation', 'Insights', 'Comprehensiveness', 'Oral Presentation', 'Slide Deck Presentation', 'Feedback')
@@ -31,23 +31,15 @@ data = data %>%
   mutate(Sum = rowSums(select(., all_of(score_columns)), na.rm = TRUE))
 
 # CUSTOMISE: for each judge, rank the teams
-Reviewer_Names = c('Aditya', 'Lisa', 'Bailey', 'Sophia', 'Jennifer', 'Nadeem', 'Hannah', 'David', 'Aidan', 'Xueer', 'Haihui')
+Reviewer_Names = c('Reviewer1', 'Reviewer2', 'Reviewer3')
 
-# CUSTOMISE: Create empty list with all the judges' names
-Aditya = list()
-Lisa = list()
-Bailey = list()
-Sophia = list()
-Jennifer = list()
-Nadeem = list()
-Hannah = list()
-David = list()
-Aidan = list()
-Xueer = list()
-Haihui = list()
+# CUSTOMISE: Create empty list with all the reviewers' names
+Reviewer1 = list()
+Reviewer2 = list()
+Reviewer3 = list()
 
-# CUSTOMISE: create a list where each element will hold the judges' rankings of the teams. Should be isomorphic to 'Reviewer_Names'
-Reviewer_Names_List = list(Aditya, Lisa, Bailey, Sophia, Jennifer, Nadeem, Hannah, David, Aidan, Xueer, Haihui)
+# CUSTOMISE: create a list where each element will hold the reviewers' rankings of the teams. Should be isomorphic to 'Reviewer_Names'
+Reviewer_Names_List = list(Reviewer1, Reviewer2, Reviewer3)
 
 # Assigns the teams and proper ranks to each of the judges' datasets
 for (i in Reviewer_Names){
@@ -67,23 +59,15 @@ for (i in Reviewer_Names){
       select(`Team Name`, Rank)
 }
 
-# CUSTOMISE: extract the judges' datasets for easy use 
-Aditya = Reviewer_Names_List[['Aditya']]
-Lisa = Reviewer_Names_List[['Lisa']]
-Bailey = Reviewer_Names_List[['Bailey']]
-Sophia = Reviewer_Names_List[['Sophia']]
-Jennifer = Reviewer_Names_List[['Jennifer']]
-Nadeem = Reviewer_Names_List[['Nadeem']]
-Hannah = Reviewer_Names_List[['Hannah']]
-David = Reviewer_Names_List[['David']]
-Aidan = Reviewer_Names_List[['Aidan']]
-Xueer = Reviewer_Names_List[['Xueer']]
-Haihui = Reviewer_Names_List[['Haihui']]
+# CUSTOMISE: extract the reviewers' datasets for easy use 
+Reviewer1 = Reviewer_Names_List[['Reviewer1']]
+Reviewer2 = Reviewer_Names_List[['Reviewer2']]
+Reviewer3 = Reviewer_Names_List[['Reviewer3']]
 
-Reviewer_Names_List = list(Aditya, Lisa, Bailey, Sophia, Jennifer, Nadeem, Hannah, David, Aidan, Xueer, Haihui)
+Reviewer_Names_List = list(Reviewer1, Reviewer2, Reviewer3)
 
 # Export to CSV
-# write.csv(average_ranks, file = "MHCC 2024 Quarter Finals Average Ranks.csv", row.names = FALSE)
+# write.csv(average_ranks, file = "PATH.csv", row.names = FALSE)
 
 ###################################
 
@@ -104,33 +88,21 @@ for (i in seq_along(Reviewer_Names_List)) {
   }
 }
 
-# CUSTOMISE: Make necessary imputations, if any
+# CUSTOMISE: Make necessary imputations, if any. Ex:
 
-#all_ranks$`Aditya`[12] = 5.5
-#all_ranks$`Aidan`[24] = 1
-#all_ranks$`Aditya`[21] = 1.5
-#all_ranks$`Bailey`[2] = 1
-#all_ranks$`Nadeem`[8] = 2
-#all_ranks$`David`[22] = 3.5
+#all_ranks$`Reviewer1`[12] = 5.5
 
 #########
 
 # A) Use subtraction as the comparison function
 
 # CUSTOMISE: make the subtraction comparison matrices for each judge
-comp_Adi = outer(all_ranks[[2]], all_ranks[[2]], FUN = '-')
-comp_Lisa = outer(all_ranks[[3]], all_ranks[[3]], FUN = '-')
-comp_Bailey = outer(all_ranks[[4]], all_ranks[[4]], FUN = '-')
-comp_Sophia = outer(all_ranks[[5]], all_ranks[[5]], FUN = '-')
-comp_Jennifer = outer(all_ranks[[6]], all_ranks[[6]], FUN = '-')
-comp_Nadeem = outer(all_ranks[[7]], all_ranks[[7]], FUN = '-')
-comp_Hannah = outer(all_ranks[[8]], all_ranks[[8]], FUN = '-')
-comp_David = outer(all_ranks[[9]], all_ranks[[9]], FUN = '-')
-comp_Aidan = outer(all_ranks[[10]], all_ranks[[10]], FUN = '-')
-comp_Xueer = outer(all_ranks[[11]], all_ranks[[11]], FUN = '-')
+comp_Reviewer1 = outer(all_ranks[[2]], all_ranks[[2]], FUN = '-')
+comp_Reviewer2 = outer(all_ranks[[3]], all_ranks[[3]], FUN = '-')
+comp_Reviewer3 = outer(all_ranks[[4]], all_ranks[[4]], FUN = '-')
 
 # CUSTOMISE: store all comparison matrices in a list
-comp_matrices = list(comp_Adi, comp_Lisa, comp_Bailey, comp_Sophia, comp_Jennifer, comp_Nadeem, comp_Hannah, comp_David, comp_Aidan, comp_Xueer)
+comp_matrices = list(comp_Reviewer1, comp_Reviewer2, comp_Reviewer3)
 
 # Convert all NA elements to 0
 for(i in seq_along(comp_matrices)){
@@ -158,20 +130,13 @@ SVD_ranks_subtraction = first_singular_vector_df %>%
 
 # B) Use division as the comparison function
 
-# CUSTOMISE: make the subtraction comparison matrices for each judge
-comp_Adi = outer(all_ranks[[2]], all_ranks[[2]], FUN = '/')
-comp_Lisa = outer(all_ranks[[3]], all_ranks[[3]], FUN = '/')
-comp_Bailey = outer(all_ranks[[4]], all_ranks[[4]], FUN = '/')
-comp_Sophia = outer(all_ranks[[5]], all_ranks[[5]], FUN = '/')
-comp_Jennifer = outer(all_ranks[[6]], all_ranks[[6]], FUN = '/')
-comp_Nadeem = outer(all_ranks[[7]], all_ranks[[7]], FUN = '/')
-comp_Hannah = outer(all_ranks[[8]], all_ranks[[8]], FUN = '/')
-comp_David = outer(all_ranks[[9]], all_ranks[[9]], FUN = '/')
-comp_Aidan = outer(all_ranks[[10]], all_ranks[[10]], FUN = '/')
-comp_Xueer = outer(all_ranks[[11]], all_ranks[[11]], FUN = '/')
+# CUSTOMISE: make the division comparison matrices for each judge
+comp_Reviewer1 = outer(all_ranks[[2]], all_ranks[[2]], FUN = '/')
+comp_Reviewer2 = outer(all_ranks[[3]], all_ranks[[3]], FUN = '/')
+comp_Reviewer3 = outer(all_ranks[[4]], all_ranks[[4]], FUN = '/')
 
 # CUSTOMISE: store all comparison matrices in a list
-comp_matrices = list(comp_Adi, comp_Lisa, comp_Bailey, comp_Sophia, comp_Jennifer, comp_Nadeem, comp_Hannah, comp_David, comp_Aidan, comp_Xueer)
+comp_matrices = list(comp_Reviewer1, comp_Reviewer2, comp_Reviewer3)
 
 # Convert all NA elements to 0
 for(i in seq_along(comp_matrices)){
@@ -222,4 +187,4 @@ final_ranks = model_ranks_df %>%
   select(c(`Team Name`, Sum))
 
 # Export to CSV
-write.csv(final_ranks, file = "MHCC 2024 Quarter Finals Final Rankings.csv", row.names = FALSE)
+write.csv(final_ranks, file = "PATH.csv", row.names = FALSE)
