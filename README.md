@@ -7,7 +7,7 @@ The first section of this algorithm cleans the data, quantifies the total score 
 
 Next, we need to build a rank matrix with all the teams as the rows and the reviewers as the columns. This information is stored in a matrix called "all_ranks"
 
-In order to run SVD, we need to utilize comparison matrices where, for each reviewer, every team's rank is compared to each other. In this algorithm, we use both subtraction (A) and division (C) as methods to compare the rankings of teams.
+In order to run SVD, we need to utilize comparison matrices where, for each reviewer, every team's rank is compared to each other. In this algorithm, we use both subtraction (A) and division (B) as methods to compare the rankings of teams.
 
 Next, the comparison matrices are added together to build the final comparison matrix. This final comparison matrix labeled, "final_comp_matrix" is what we input for singular value decomposition.
 
